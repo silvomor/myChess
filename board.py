@@ -11,17 +11,19 @@ class Board:
         self.board = [[None for p in range(rows)] for _ in range(cols)]
         
         for b, piece in zip(range(rows), order):
-            self.board[b][0] = piece(0, b, 'black')
+            self.board[0][b] = piece(0, b, 'black')
         
         for b in range(rows):
-            self.board[b][1] = Pawn(1, b, 'black')
+            self.board[1][b] = Pawn(1, b, 'black')
 
         for w in range(rows):
-            self.board[w][6] = Pawn(6, w, 'white')
+            self.board[6][w] = Pawn(6, w, 'white')
 
         for w, piece in zip(range(rows), order):
-            self.board[w][7] = piece(7, w, 'white')
-
+            self.board[7][w] = piece(7, w, 'white')
+        
+        # PUT CUSTOM HARD CODED PIECES HERE
+        self.board[2][2] = King(2, 2, 'white')
 
     def putOnBoard(self, win):
         for i in range(self.rows):
@@ -37,4 +39,4 @@ class Board:
                     self.board[i][j].selected = False
 
         self.board[x][y].selected = True
-        # print('Success !!!', self.board[x][y], "is selected", '\n')
+        # print('Success !!!', self.board[x][y], "is selected", self.board[x][y].selected, '\n')

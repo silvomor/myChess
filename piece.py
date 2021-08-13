@@ -36,7 +36,7 @@ class King(Piece):
     img = 0
     def __str__(self) -> str:
         return self.color+ "-" + str(self.__class__.__name__)
-        
+
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
@@ -93,27 +93,63 @@ class Pawn(Piece):
         return self.color+ "-" + str(self.__class__.__name__)
 
     def validMoves(self, board):
-        i, j =  self.col, self.row
+        i, j =  self.row, self.col
         print(i, j)
         moves = []
-
+# BLACK PAWNS
         if self.color == 'black':
+            f1 = board.board[i+1][j]
+            # FIRST MOVE WITH TWO OPTIONS
             if self.first:
-                p1, p2 = board.board[i+1][j], board.board[i+2][j]
-                print(p1, p2)
-                if not p1:
+                f2 = board.board[i+2][j]
+                if not f1:
                     moves.append(('safe single jump', i+1, j))
-                    if not p2:
+                    if not f2:
                         moves.append(('safe double jump', i+2, j))
+            # NORMAL SINGLE STEP MOVE
+            else:
+                if not f1:
+                    moves.append(('safe single jump', i+1, j))
+            # print(f1, f2)
 
+            # KILLING DIAGONAL PIECES
+            if j < 7 and i < 7:
+                rd = board.board[i+1][j+1]
+                if rd is not None:
+                   moves.append(("Kill right down", i+1, j+1))
+                   print(rd, "on right down")
+            if j > 0 and i < 7:
+                ld = board.board[i+1][j-1]
+                if ld is not None:
+                   moves.append(("Kill left down", i+1, j-1))
+                   print(ld, 'on left down')
+# WHITE PAWNS
         elif self.color == 'white':
+            f1 = board.board[i-1][j]
+            # FIRST MOVE WITH TWO OPTIONS
             if self.first:
-                p1, p2 = board.board[j][i-1], board.board[j][i-2]
-                print(p1, p2)
-                if not p1:
+                f2 = board.board[i-2][j]
+                print(f1, f2)
+                if not f1:
                     moves.append(('safe single jump', i-1, j))
-                    if not p2:
+                    if not f2:
                         moves.append(('safe double jump', i-2, j))
+            # NORMAL SINGLE STEP MOVE
+            else:
+                if not f1:
+                    moves.append(('safe single jump', i-1, j))
+            # print(f1, f2)
 
+            # KILLING DIAGONAL PIECES
+            if j < 7 and 0 < i:
+                ru = board.board[i-1][j+1]
+                if ru is not None:
+                   moves.append(("Kill right up", i-1, j+1))
+                   print(ru, "on right up")
+            if j > 0 and 0 < i:
+                lu = board.board[i-1][j-1]
+                if lu is not None:
+                   moves.append(("Kill left up", i-1, j-1))
+                   print(lu, 'on left up')
 
         return moves
