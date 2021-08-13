@@ -23,13 +23,13 @@ class Board:
             self.board[7][w] = piece(7, w, 'white')
         
         # PUT CUSTOM HARD CODED PIECES HERE
-        self.board[2][2] = King(2, 2, 'white')
+        self.board[4][4] = Rook(4, 4, 'white')
 
-    def putOnBoard(self, win):
+    def putOnBoard(self, win, board):
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j]:
-                    self.board[i][j].draw(win)
+                    self.board[i][j].draw(win, board)
 
     def selectPiece(self, x, y):
         print("trying to select :", self.board[x][y])

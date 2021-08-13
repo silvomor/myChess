@@ -20,7 +20,7 @@ def redrawGameWindow():
     # global WIN, board1
     WIN.blit(BOARD, (0, 0))
 
-    board1.putOnBoard(WIN)
+    board1.putOnBoard(WIN, board1.board)
 
     pygame.display.update()
 
@@ -50,8 +50,8 @@ def main():
                     board1.selectPiece(i, j)
                     myMoves = board1.board[i][j].validMoves(board1)
                     print("Possible Moves: ", myMoves)
-                except AttributeError:
-                    print('Piece not found')
+                except Exception as error:
+                    print(error, 'This happened !')
 
                 # prints the selected piece:  print(board1.board[i][j])
     pygame.quit()

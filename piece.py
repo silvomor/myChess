@@ -18,18 +18,22 @@ class Piece:
     def isSelected(self):
         return self.selected
 
-    def draw(self, win):
+    def draw(self, win, board):
         if self.color == "white":
             drawThis = WHITE_PIECE[self.img]
         else:
             drawThis = BLACK_PIECE[self.img]       
-        
-        x = self.col * round(self.rect[2]/8)
-        y = self.row * round(self.rect[2]/8)
+
+        x, y = self.col * round(self.rect[2]/8), self.row * round(self.rect[2]/8)
         # print(x, y,)
+
         if self.selected:
             pygame.draw.rect(win, (255, 0, 0), (x, y, 76, 76), 2)
-
+        
+        myMoves = self.validMoves(board)
+        for aMove in myMoves:
+            x, y = 40 + aMove[1] * round(self.rect[2]/8), 40 + aMove[2] * round(self.rect[2]/8)
+            pygame.draw.circle(win, (0, 0, 255), (x, y), 10)
         win.blit(drawThis, (x, y))
 
 class King(Piece):
@@ -38,8 +42,13 @@ class King(Piece):
         return self.color+ "-" + str(self.__class__.__name__)
 
     def validMoves(self, board):
-        i, j = self.row, self.col
-        moves = []
+        i, j =  self.row, self.col
+        print(i, j)
+        moves =[]
+        if self.color == 'white':
+            pass
+        elif self.color == 'black':
+            pass
         return moves
         
 class Queen(Piece):
@@ -48,8 +57,13 @@ class Queen(Piece):
         return self.color+ "-" + str(self.__class__.__name__)
 
     def validMoves(self, board):
-        i, j = self.row, self.col
-        moves = []
+        i, j =  self.row, self.col
+        print(i, j)
+        moves =[]
+        if self.color == 'white':
+            pass
+        elif self.color == 'black':
+            pass
         return moves
 
 class Bishop(Piece):
@@ -58,8 +72,13 @@ class Bishop(Piece):
         return self.color+ "-" + str(self.__class__.__name__)
 
     def validMoves(self, board):
-        i, j = self.row, self.col
-        moves = []
+        i, j =  self.row, self.col
+        print(i, j)
+        moves =[]
+        if self.color == 'white':
+            pass
+        elif self.color == 'black':
+            pass
         return moves
 
 class Knight(Piece):
@@ -68,8 +87,13 @@ class Knight(Piece):
         return self.color+ "-" + str(self.__class__.__name__)
 
     def validMoves(self, board):
-        i, j = self.row, self.col
-        moves = []
+        i, j =  self.row, self.col
+        print(i, j)
+        moves =[]
+        if self.color == 'white':
+            pass
+        elif self.color == 'black':
+            pass
         return moves
 
 class Rook(Piece):
@@ -78,8 +102,39 @@ class Rook(Piece):
         return self.color+ "-" + str(self.__class__.__name__)
 
     def validMoves(self, board):
-        i, j = self.row, self.col
-        moves = []
+        i, j =  self.row, self.col
+        print(i, j)
+        moves =[]
+        print(board)
+        # UP
+        if i > 0:
+            for x in range(i-1, -1, -1):
+                if board.board[x][j] is None:
+                    moves.append(('move forward', x, j))
+                elif board.board[x][j] is not None:
+                    # UP KILL MOVE
+                    moves.append(('Kill jump', x, j))
+                    break
+        # DOWN
+        if i < 7:
+            for x in range(i+1, 8, 1):
+                if board.board[x][j] is None:
+                    moves.append(('move Down', x, j))
+                elif board.board[x][j] is not None:
+                    # DOWN KILL MOVE
+                    moves.append(('Kill jump', x, j))
+                    break
+        # RIGHT
+        if j < 7:
+            for y in range(j+1, 8, 1):
+                if board.board[i][y] is None:
+                    moves.append(('move Right', x, j))
+                elif board.board[i][y] is not None:
+                    # RIGHT KILL MOVE
+                    moves.append(('Kill jump', x, j))
+                    break
+        # LEFT
+
         return moves
 
 class Pawn(Piece):
@@ -96,7 +151,7 @@ class Pawn(Piece):
         i, j =  self.row, self.col
         print(i, j)
         moves = []
-# BLACK PAWNS
+        # BLACK PAWNS
         if self.color == 'black':
             f1 = board.board[i+1][j]
             # FIRST MOVE WITH TWO OPTIONS
@@ -123,7 +178,7 @@ class Pawn(Piece):
                 if ld is not None:
                    moves.append(("Kill left down", i+1, j-1))
                    print(ld, 'on left down')
-# WHITE PAWNS
+        # WHITE PAWNS
         elif self.color == 'white':
             f1 = board.board[i-1][j]
             # FIRST MOVE WITH TWO OPTIONS
