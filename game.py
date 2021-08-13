@@ -29,7 +29,7 @@ def redrawGameWindow():
 def click(pos):
     x, y = pos[0], pos[1]
     X, Y = int(x//(rect[2]/8)), int(y//(rect[2]/8))
-    print("\n\nCurrent Indices: ", X, Y)
+    print("\n\nCurrent Indices: ", Y, X)
     return (X, Y)
 
 

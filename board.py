@@ -41,5 +41,4 @@ class Board:
         print('Success !!!', self.board[x][y], "is selected", self.board[x][y].selected, '\n')
 
     def showMyMove(self, move, win):
-        print("Showing move on Board: ", move[0])
-        pygame.draw.rect(win, (255, 0, 0), (move[2], move[1], 76, 76), 2)
+        print("Showing move on Board: ", move)

@@ -32,8 +32,6 @@ class Piece:
 
         win.blit(drawThis, (x, y))
 
-
-
 class King(Piece):
     img = 0
     def validMoves(self, board):
@@ -86,11 +84,19 @@ class Pawn(Piece):
                 print(p1, p2)
                 print(i, j)
                 if not p1:
-                    moves.append(('safe single jump', j, i+1))
+                    moves.append(('safe single jump', i+1, j))
                     if not p2:
-                        moves.append(('safe double jump', j, i+2))
+                        moves.append(('safe double jump', i+2, j))
 
         elif self.color == 'white':
-            pass
+            if self.first:
+                p1, p2 = board.board[j][i-1], board.board[j][i-2]
+                print(p1, p2)
+                print(i, j)
+                if not p1:
+                    moves.append(('safe single jump', i-1, j))
+                    if not p2:
+                        moves.append(('safe double jump', i-2, j))
+
 
         return moves
