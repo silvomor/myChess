@@ -28,7 +28,6 @@ class Board:
             for j in range(self.cols):
                 if self.board[i][j]:
                     self.board[i][j].draw(win)
-                    # print('\n\n', self.board[i][j].selected, '\n\n')
 
     def selectPiece(self, x, y):
         print("trying to select :", self.board[x][y])
@@ -38,7 +37,4 @@ class Board:
                     self.board[i][j].selected = False
 
         self.board[x][y].selected = True
-        print('Success !!!', self.board[x][y], "is selected", self.board[x][y].selected, '\n')
-
-    def showMyMove(self, move, win):
-        print("Showing move on Board: ", move)
+        # print('Success !!!', self.board[x][y], "is selected", '\n')

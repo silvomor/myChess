@@ -29,7 +29,7 @@ def redrawGameWindow():
 def click(pos):
     x, y = pos[0], pos[1]
     X, Y = int(x//(rect[2]/8)), int(y//(rect[2]/8))
-    print("\n\nCurrent Indices: ", Y, X)
+    print("\n\nCurrent Indices: ", X, Y)
     return (X, Y)
 
 
@@ -55,8 +55,6 @@ def main():
                     board1.selectPiece(i, j)
                     myMoves = board1.board[i][j].validMoves(board1)
                     print("Possible Moves: ", myMoves)
-                    for aMove in myMoves:
-                        board1.showMyMove(aMove, WIN)
                 except AttributeError:
                     print('No Piece here')
 

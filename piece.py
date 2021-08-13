@@ -34,6 +34,9 @@ class Piece:
 
 class King(Piece):
     img = 0
+    def __str__(self) -> str:
+        return self.color+ "-" + str(self.__class__.__name__)
+        
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
@@ -41,6 +44,9 @@ class King(Piece):
         
 class Queen(Piece):
     img = 1
+    def __str__(self) -> str:
+        return self.color+ "-" + str(self.__class__.__name__)
+
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
@@ -48,6 +54,9 @@ class Queen(Piece):
 
 class Bishop(Piece):
     img = 2
+    def __str__(self) -> str:
+        return self.color+ "-" + str(self.__class__.__name__)
+
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
@@ -55,6 +64,9 @@ class Bishop(Piece):
 
 class Knight(Piece):
     img = 3
+    def __str__(self) -> str:
+        return self.color+ "-" + str(self.__class__.__name__)
+
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
@@ -62,6 +74,9 @@ class Knight(Piece):
 
 class Rook(Piece):
     img = 4
+    def __str__(self) -> str:
+        return self.color+ "-" + str(self.__class__.__name__)
+
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
@@ -74,15 +89,18 @@ class Pawn(Piece):
         self.first = True
         self.queen = False
 
+    def __str__(self) -> str:
+        return self.color+ "-" + str(self.__class__.__name__)
+
     def validMoves(self, board):
-        i, j = self.row, self.col
+        i, j =  self.col, self.row
+        print(i, j)
         moves = []
 
         if self.color == 'black':
             if self.first:
-                p1, p2 = board.board[j][i+1], board.board[j][i+2]
+                p1, p2 = board.board[i+1][j], board.board[i+2][j]
                 print(p1, p2)
-                print(i, j)
                 if not p1:
                     moves.append(('safe single jump', i+1, j))
                     if not p2:
@@ -92,7 +110,6 @@ class Pawn(Piece):
             if self.first:
                 p1, p2 = board.board[j][i-1], board.board[j][i-2]
                 print(p1, p2)
-                print(i, j)
                 if not p1:
                     moves.append(('safe single jump', i-1, j))
                     if not p2:
