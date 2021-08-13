@@ -16,8 +16,10 @@ PIECE_HEIGHT, PIECE_WIDTH = 60, 40
 FPS = 10
 board1 = Board()
 
+
+
 def redrawGameWindow():
-    global WIN, board1
+    # global WIN, board1
     WIN.blit(BOARD, (0, 0))
 
     board1.putOnBoard(WIN)
@@ -27,8 +29,10 @@ def redrawGameWindow():
 def click(pos):
     x, y = pos[0], pos[1]
     X, Y = int(x//(rect[2]/8)), int(y//(rect[2]/8))
-    print(X, Y)
+    print("\n\nCurrent Indices: ", X, Y)
     return (X, Y)
+
+
 
 def main():
     run = True
@@ -46,13 +50,19 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 i, j = click(pos)
-                # board1.board[i][j].selected = True
+
                 try:
                     board1.selectPiece(i, j)
+                    myMoves = board1.board[i][j].validMoves(board1)
+                    print("Possible Moves: ", myMoves)
+                    for aMove in myMoves:
+                        board1.showMyMove(aMove, WIN)
                 except AttributeError:
                     print('No Piece here')
-                # prints the selected piece
-                # print(board1.board[i][j])
+
+                # prints the selected piece:  print(board1.board[i][j])
+
+
 
     pygame.quit()
 

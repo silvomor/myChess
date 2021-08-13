@@ -29,54 +29,37 @@ class Piece:
         # print(x, y,)
         if self.selected:
             pygame.draw.rect(win, (255, 0, 0), (x, y, 76, 76), 2)
+
         win.blit(drawThis, (x, y))
+
+
 
 class King(Piece):
     img = 0
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
-        # TOP MOVES
+        return moves
         
-
 class Queen(Piece):
     img = 1
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
+        return moves
 
 class Bishop(Piece):
     img = 2
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
+        return moves
 
 class Knight(Piece):
     img = 3
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
-
-        # DOWN LEFT
-        if i < 6 and j > 0:
-            _ = board[i+2][j-1]
-            if _ is None:
-                moves.append((i+2, j-1))
-        # DOWN RIGHT
-        if i < 6 and j < 7:
-            _ = board[i+2][j+1]
-            if _ is None:
-                moves.append((i+2, j+1))
-        # UP LEFT
-        if i < 6 and j > 0:
-            _ = board[i+2][j+1]
-            if _ is None:
-                moves.append((i+2, j+1))
-        # UP RIGHT
-        if i < 6 and j < 7:
-            _ = board[i+2][j+1]
-            if _ is None:
-                moves.append((i+2, j+1))
         return moves
 
 class Rook(Piece):
@@ -84,6 +67,7 @@ class Rook(Piece):
     def validMoves(self, board):
         i, j = self.row, self.col
         moves = []
+        return moves
 
 class Pawn(Piece):
     img = 5
@@ -96,15 +80,17 @@ class Pawn(Piece):
         i, j = self.row, self.col
         moves = []
 
-        if i < 7:
-            # FORWARD 2
+        if self.color == 'black':
             if self.first:
-                _ = board[i+1][j]
-                if _ is None:
-                    moves.append((i+2, j))
-            # FORWARD 1
-            else:
-                _ = board[i+1][j]
-                if _ is None:
-                    moves.append((i+1, j))
+                p1, p2 = board.board[j][i+1], board.board[j][i+2]
+                print(p1, p2)
+                print(i, j)
+                if not p1:
+                    moves.append(('safe single jump', j, i+1))
+                    if not p2:
+                        moves.append(('safe double jump', j, i+2))
+
+        elif self.color == 'white':
+            pass
+
         return moves
