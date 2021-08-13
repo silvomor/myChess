@@ -23,7 +23,7 @@ class Board:
             self.board[7][w] = piece(7, w, 'white')
         
         # PUT CUSTOM HARD CODED PIECES HERE
-        self.board[4][4] = Rook(4, 4, 'white')
+        self.board[2][2] = Rook(2, 2, 'white')
 
     def putOnBoard(self, win, board):
         for i in range(self.rows):

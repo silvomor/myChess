@@ -30,10 +30,11 @@ class Piece:
         if self.selected:
             pygame.draw.rect(win, (255, 0, 0), (x, y, 76, 76), 2)
         
-        myMoves = self.validMoves(board)
-        for aMove in myMoves:
-            x, y = 40 + aMove[1] * round(self.rect[2]/8), 40 + aMove[2] * round(self.rect[2]/8)
-            pygame.draw.circle(win, (0, 0, 255), (x, y), 10)
+            myMoves = self.validMoves(board)
+            for aMove in myMoves:
+                cx, cy = 40 + aMove[2] * round(self.rect[2]/8), 40 + aMove[1] * round(self.rect[2]/8)
+                pygame.draw.circle(win, (255, 0, 0), (cx, cy), 20)
+
         win.blit(drawThis, (x, y))
 
 class King(Piece):
@@ -75,10 +76,15 @@ class Bishop(Piece):
         i, j =  self.row, self.col
         print(i, j)
         moves =[]
-        if self.color == 'white':
-            pass
-        elif self.color == 'black':
-            pass
+        # MARCH TOWARDS LEFT TOP CORNER
+        # if 8 > j > 0:
+
+        # MARCH TOWARDS LEFT BOTTOM CORNER
+
+        # MARCH TOWRDS RIGHT TOP CORNER
+
+        # MARCH TOWRDS RIGHT BOTTOM CORNER
+
         return moves
 
 class Knight(Piece):
@@ -103,38 +109,46 @@ class Rook(Piece):
 
     def validMoves(self, board):
         i, j =  self.row, self.col
-        print(i, j)
+        # print(i, j, 'this is bugging me')
         moves =[]
-        print(board)
+        # print(type(board.board))
         # UP
         if i > 0:
             for x in range(i-1, -1, -1):
                 if board.board[x][j] is None:
-                    moves.append(('move forward', x, j))
+                    moves.append(('safe move up', x, j))
                 elif board.board[x][j] is not None:
                     # UP KILL MOVE
-                    moves.append(('Kill jump', x, j))
+                    moves.append(('kill', x, j))
                     break
         # DOWN
         if i < 7:
             for x in range(i+1, 8, 1):
                 if board.board[x][j] is None:
-                    moves.append(('move Down', x, j))
+                    moves.append(('safe move Down', x, j))
                 elif board.board[x][j] is not None:
                     # DOWN KILL MOVE
-                    moves.append(('Kill jump', x, j))
+                    moves.append(('kill', x, j))
                     break
+        i, j =  self.row, self.col
         # RIGHT
         if j < 7:
             for y in range(j+1, 8, 1):
                 if board.board[i][y] is None:
-                    moves.append(('move Right', x, j))
+                    moves.append(('safe move Right', i, y))
                 elif board.board[i][y] is not None:
                     # RIGHT KILL MOVE
-                    moves.append(('Kill jump', x, j))
+                    moves.append(('kill', x, j))
                     break
         # LEFT
-
+        if j > 0:
+            for y in range(j-1, -1, -1):
+                if board.board[i][y] is None:
+                    moves.append(('safe move left', i, y))
+                elif board.board[i][y] is not None:
+                    # RIGHT KILL MOVE
+                    moves.append(('kill', x, j))
+                    break
         return moves
 
 class Pawn(Piece):
@@ -149,7 +163,7 @@ class Pawn(Piece):
 
     def validMoves(self, board):
         i, j =  self.row, self.col
-        print(i, j)
+        # print(i, j)
         moves = []
         # BLACK PAWNS
         if self.color == 'black':
@@ -165,26 +179,25 @@ class Pawn(Piece):
             else:
                 if not f1:
                     moves.append(('safe single jump', i+1, j))
-            # print(f1, f2)
 
             # KILLING DIAGONAL PIECES
             if j < 7 and i < 7:
                 rd = board.board[i+1][j+1]
                 if rd is not None:
-                   moves.append(("Kill right down", i+1, j+1))
-                   print(rd, "on right down")
+                   moves.append(("kill right down", i+1, j+1))
+
             if j > 0 and i < 7:
                 ld = board.board[i+1][j-1]
                 if ld is not None:
-                   moves.append(("Kill left down", i+1, j-1))
-                   print(ld, 'on left down')
+                   moves.append(("kill left down", i+1, j-1))
+
         # WHITE PAWNS
         elif self.color == 'white':
             f1 = board.board[i-1][j]
             # FIRST MOVE WITH TWO OPTIONS
             if self.first:
                 f2 = board.board[i-2][j]
-                print(f1, f2)
+
                 if not f1:
                     moves.append(('safe single jump', i-1, j))
                     if not f2:
@@ -193,18 +206,17 @@ class Pawn(Piece):
             else:
                 if not f1:
                     moves.append(('safe single jump', i-1, j))
-            # print(f1, f2)
+
 
             # KILLING DIAGONAL PIECES
             if j < 7 and 0 < i:
                 ru = board.board[i-1][j+1]
                 if ru is not None:
-                   moves.append(("Kill right up", i-1, j+1))
-                   print(ru, "on right up")
+                   moves.append(("kill right up", i-1, j+1))
+
             if j > 0 and 0 < i:
                 lu = board.board[i-1][j-1]
                 if lu is not None:
-                   moves.append(("Kill left up", i-1, j-1))
-                   print(lu, 'on left up')
+                   moves.append(("kill left up", i-1, j-1))
 
         return moves

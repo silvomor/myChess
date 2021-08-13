@@ -20,7 +20,7 @@ def redrawGameWindow():
     # global WIN, board1
     WIN.blit(BOARD, (0, 0))
 
-    board1.putOnBoard(WIN, board1.board)
+    board1.putOnBoard(WIN, board1)
 
     pygame.display.update()
 
@@ -46,6 +46,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 j, i = click(pos)
+
                 try:
                     board1.selectPiece(i, j)
                     myMoves = board1.board[i][j].validMoves(board1)
