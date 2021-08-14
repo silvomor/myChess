@@ -25,9 +25,9 @@ class Board:
         # PUT CUSTOM HARD CODED PIECES HERE
         self.board[3][0] = Queen(3, 0, 'white')
         self.board[1][7] = Queen(1, 7, 'white')
-        self.board[3][3] = Queen(3, 3, 'black')
+        self.board[3][3] = Knight(3, 3, 'black')
         self.board[1][6] = None
-        
+
     def putOnBoard(self, win, board):
         for i in range(self.rows):
             for j in range(self.cols):

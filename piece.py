@@ -244,11 +244,25 @@ class Knight(Piece):
     def __str__(self) -> str:
         return self.color+ "-" + str(self.__class__.__name__)
 
+    def knightMoves(self, xk, yk):
+        allKnightMoves = [
+                        (xk-2, yk-1), (xk-2, yk+1), 
+                        (xk+2, yk-1), (xk+2, yk+1), 
+                        (xk-1, yk-2), (xk-1, yk+2), 
+                        (xk+1, yk-2), (xk+1, yk+2) ]
+        return allKnightMoves
+
     def validMoves(self, board):
         i, j =  self.row, self.col
-        print(i, j)
+        # print(i, j)
         moves =[]
-        
+        for thisMove in self.knightMoves(i, j):
+            kx, ky = thisMove[0], thisMove[1]
+            if 0 <= kx <=7 and 0 <= ky <= 7:
+                if board.board[kx][ky]:
+                    moves.append(('kill knight', kx, ky))
+                else:
+                    moves.append(('safe jump', kx, ky))
         return moves
 
 class Rook(Piece):
