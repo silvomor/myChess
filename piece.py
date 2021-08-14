@@ -277,7 +277,8 @@ class Knight(Piece):
             kx, ky = thisMove[0], thisMove[1]
             if 0 <= kx <=7 and 0 <= ky <= 7:
                 if board.board[kx][ky]:
-                    moves.append(('kill knight', kx, ky))
+                    if board.board[kx][ky].color != self.color:
+                        moves.append(('kill knight', kx, ky))
                 else:
                     moves.append(('safe jump', kx, ky))
         return moves
@@ -364,13 +365,15 @@ class Pawn(Piece):
             # KILLING DIAGONAL PIECES
             if j < 7 and i < 7:
                 rd = board.board[i+1][j+1]
-                if rd is not None:
-                   moves.append(("kill right down", i+1, j+1))
+                if rd:
+                    if rd.color != self.color:
+                        moves.append(("kill right down", i+1, j+1))
 
             if j > 0 and i < 7:
                 ld = board.board[i+1][j-1]
-                if ld is not None:
-                   moves.append(("kill left down", i+1, j-1))
+                if ld:
+                    if ld.color != self.color:
+                       moves.append(("kill left down", i+1, j-1))
 
         # WHITE PAWNS
         elif self.color == 'white':
@@ -392,12 +395,14 @@ class Pawn(Piece):
             # KILLING DIAGONAL PIECES
             if j < 7 and 0 < i:
                 ru = board.board[i-1][j+1]
-                if ru is not None:
-                   moves.append(("kill right up", i-1, j+1))
+                if ru:
+                    if ru.color != self.color:
+                       moves.append(("kill right up", i-1, j+1))
 
             if j > 0 and 0 < i:
                 lu = board.board[i-1][j-1]
-                if lu is not None:
-                   moves.append(("kill left up", i-1, j-1))
+                if lu:
+                    if lu.color != self.color:
+                       moves.append(("kill left up", i-1, j-1))
 
         return moves
