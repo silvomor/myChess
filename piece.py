@@ -131,7 +131,8 @@ class Queen(Piece):
                     moves.append(('safe move up', x, j))
                 elif board.board[x][j] is not None:
                     # UP KILL MOVE
-                    moves.append(('kill', x, j))
+                    if board.board[x][j].color != self.color:
+                        moves.append(('kill', x, j))
                     break
         # LONG JUMP DOWN
         if i < 7:
@@ -140,27 +141,28 @@ class Queen(Piece):
                     moves.append(('safe move Down', x, j))
                 elif board.board[x][j] is not None:
                     # DOWN KILL MOVE
-                    moves.append(('kill', x, j))
+                    if board.board[x][j].color != self.color:
+                        moves.append(('kill', x, j))
                     break
-        
         # LONG JUMP RIGHT
         if j < 7:
             for y in range(j+1, 8, 1):
                 if board.board[i][y]:
-                    moves.append(('kill', i, y))
+                    if board.board[i][y].color != self.color:
+                        moves.append(('kill', i, y))
                     break
                 else:
                     moves.append(('safe move Right', i, y))
-
         # LONG JUMP LEFT
         if j > 0:
             for y in range(j-1, -1, -1):
                 if board.board[i][y]:
-                    moves.append(('kill', i, y))
+                    if board.board[i][y].color != self.color:
+                        moves.append(('kill', i, y))
                     break
                 else:
                     moves.append(('safe move left', i, y))
-  
+        
         i, j =  self.row, self.col
         # HOLDING POSITIONS AGAIN IN X , Y
         # print(x, y)
@@ -295,7 +297,8 @@ class Rook(Piece):
                     moves.append(('safe move up', x, j))
                 elif board.board[x][j] is not None:
                     # UP KILL MOVE
-                    moves.append(('kill', x, j))
+                    if board.board[x][j].color != self.color:
+                        moves.append(('kill', x, j))
                     break
         # LONG JUMP DOWN
         if i < 7:
@@ -304,26 +307,29 @@ class Rook(Piece):
                     moves.append(('safe move Down', x, j))
                 elif board.board[x][j] is not None:
                     # DOWN KILL MOVE
-                    moves.append(('kill', x, j))
+                    if board.board[x][j].color != self.color:
+                        moves.append(('kill', x, j))
                     break
         # i, j =  self.row, self.col
         # LONG JUMP RIGHT
         if j < 7:
             for y in range(j+1, 8, 1):
                 if board.board[i][y]:
-                    moves.append(('kill', i, y))
+                    if board.board[i][y].color != self.color:
+                        moves.append(('kill', i, y))
                     break
                 else:
                     moves.append(('safe move Right', i, y))
-
         # LONG JUMP LEFT
         if j > 0:
             for y in range(j-1, -1, -1):
                 if board.board[i][y]:
-                    moves.append(('kill', i, y))
+                    if board.board[i][y].color != self.color:
+                        moves.append(('kill', i, y))
                     break
                 else:
                     moves.append(('safe move left', i, y))
+        
         return moves
 
 class Pawn(Piece):
