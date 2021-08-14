@@ -51,56 +51,64 @@ class King(Piece):
         # TOP LEFT
         if i > 0 and j > 0:
             if board.board[i-1][j-1]:
-                moves.append(('top left kill', i-1, j-1))
+                if self.color != board.board[i-1][j-1].color:
+                    moves.append(('top left kill', i-1, j-1))
             else:
                 moves.append(('top left safe', i-1, j-1))
           
         # TOP RIGHT
         if i > 0 and j < 7:
             if board.board[i-1][j+1]:
-                moves.append(('kill top right', i-1, j+1))
+                if self.color != board.board[i-1][j+1].color:
+                    moves.append(('kill top right', i-1, j+1))
             else:
                 moves.append(('safe top right', i-1, j+1))
 
         # BOTTOM LEFT
         if i < 7 and j > 0:
             if board.board[i+1][j-1]:
-                moves.append(('kill bottom left', i+1, j-1))
+                if self.color != board.board[i+1][j-1].color:
+                    moves.append(('kill bottom left', i+1, j-1))
             else:
                 moves.append(('safe bottom left', i+1, j-1))  
         
         # BOTTOM RIGHT
         if i < 7 and j < 7:
             if board.board[i+1][j+1]:
-                moves.append(('kill bottom right', i+1, j+1))
+                if self.color != board.board[i+1][j+1].color:
+                    moves.append(('kill bottom right', i+1, j+1))
             else:
                 moves.append(('safe bottom right', i+1, j+1))   
             
         # TOP
         if i > 0:
-            if  board.board[i-1][j]:
-                moves.append(('kill top', i-1, j))
+            if board.board[i-1][j]:
+                if self.color != board.board[i-1][j].color:
+                    moves.append(('kill top', i-1, j))
             else:
                 moves.append(('safe top', i-1, j))   
 
         # BOTTOM
         if i < 7:
             if board.board[i+1][j]:
-                moves.append(('kill bottom', i+1, j))
+                if self.color != board.board[i+1][j].color:
+                    moves.append(('kill bottom', i+1, j))
             else:
                 moves.append(('safe bottom', i+1, j))   
 
         # LEFT
         if j > 0:
             if board.board[i][j-1]:
-                moves.append(('kill left', i, j-1))
+                if self.color != board.board[i][j-1].color:
+                    moves.append(('kill left', i, j-1))
             else:
                 moves.append(('safe left', i, j-1))    
 
         # RIGHT
         if j < 7:
             if board.board[i][j+1]:
-                moves.append(('kill right', i, j+1))
+                if self.color != board.board[i][j+1].color:
+                    moves.append(('kill right', i, j+1))
             else:
                 moves.append(('safe right', i, j+1))               
 
@@ -155,40 +163,43 @@ class Queen(Piece):
   
         i, j =  self.row, self.col
         # HOLDING POSITIONS AGAIN IN X , Y
-        x , y = i , j
         # print(x, y)
 
         # # BISHOP LIKE MOVES 
         # MARCH TOWARDS LEFT TOP CORNER
+        x, y = i, j
         while x > 0 and y > 0:
             x, y = x - 1, y - 1
             if board.board[x][y]:
-                moves.append(('kill', x, y))
-                x, y = i, j
+                if board.board[x][y].color != self.color:
+                    moves.append(('kill', x, y))
                 break
             moves.append(('safe jump', x, y))
         # MARCH TOWARDS LEFT BOTTOM CORNER
+        x, y = i, j
         while x < 7 and y > 0:
             x, y = x + 1, y - 1
             if board.board[x][y]:
-                moves.append(('kill', x, y))
-                x, y = i, j
+                if board.board[x][y].color != self.color:
+                    moves.append(('kill', x, y))
                 break
             moves.append(('safe jump', x, y))
         # MARCH TOWRDS RIGHT TOP CORNER
+        x, y = i, j
         while x > 0 and y < 7:
             x, y = x - 1, y + 1
             if board.board[x][y]:
-                moves.append(('kill', x, y))
-                x, y = i, j
+                if board.board[x][y].color != self.color:
+                    moves.append(('kill', x, y))
                 break
             moves.append(('safe jump', x, y))   
         # MARCH TOWRDS RIGHT BOTTOM CORNER
+        x, y = i, j
         while x < 7 and y < 7:
             x, y = x + 1, y + 1
             if board.board[x][y]:
-                moves.append(('kill', x, y))
-                x, y = i, j
+                if board.board[x][y].color != self.color:
+                    moves.append(('kill', x, y))
                 break
             moves.append(('safe jump', x, y))
         
@@ -201,39 +212,43 @@ class Bishop(Piece):
 
     def validMoves(self, board):
         i, j =  self.row, self.col
-        x, y = i, j
         # print(i, j)
         moves =[]
+
         # MARCH TOWARDS LEFT TOP CORNER
+        x, y = i, j
         while x > 0 and y > 0:
             x, y = x - 1, y - 1
             if board.board[x][y]:
-                moves.append(('kill', x, y))
-                x, y = i, j
+                if board.board[x][y].color != self.color:
+                    moves.append(('kill', x, y))
                 break
             moves.append(('safe jump', x, y))
         # MARCH TOWARDS LEFT BOTTOM CORNER
+        x, y = i, j
         while x < 7 and y > 0:
             x, y = x + 1, y - 1
             if board.board[x][y]:
-                moves.append(('kill', x, y))
-                x, y = i, j
+                if board.board[x][y].color != self.color:
+                    moves.append(('kill', x, y))
                 break
             moves.append(('safe jump', x, y))
         # MARCH TOWRDS RIGHT TOP CORNER
+        x, y = i, j
         while x > 0 and y < 7:
             x, y = x - 1, y + 1
             if board.board[x][y]:
-                moves.append(('kill', x, y))
-                x, y = i, j
+                if board.board[x][y].color != self.color:
+                    moves.append(('kill', x, y))
                 break
             moves.append(('safe jump', x, y))   
         # MARCH TOWRDS RIGHT BOTTOM CORNER
+        x, y = i, j
         while x < 7 and y < 7:
             x, y = x + 1, y + 1
             if board.board[x][y]:
-                moves.append(('kill', x, y))
-                x, y = i, j
+                if board.board[x][y].color != self.color:
+                    moves.append(('kill', x, y))
                 break
             moves.append(('safe jump', x, y))
         
