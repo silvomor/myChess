@@ -248,10 +248,7 @@ class Knight(Piece):
         i, j =  self.row, self.col
         print(i, j)
         moves =[]
-        if self.color == 'white':
-            pass
-        elif self.color == 'black':
-            pass
+        
         return moves
 
 class Rook(Piece):
