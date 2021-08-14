@@ -134,29 +134,30 @@ class Queen(Piece):
                     # DOWN KILL MOVE
                     moves.append(('kill', x, j))
                     break
-        i, j =  self.row, self.col
+        
         # LONG JUMP RIGHT
         if j < 7:
             for y in range(j+1, 8, 1):
-                if board.board[i][y] is None:
-                    moves.append(('safe move Right', i, y))
-                elif board.board[i][y] is not None:
-                    # RIGHT KILL MOVE
-                    moves.append(('kill', x, j))
+                if board.board[i][y]:
+                    moves.append(('kill', i, y))
                     break
+                else:
+                    moves.append(('safe move Right', i, y))
+
         # LONG JUMP LEFT
         if j > 0:
             for y in range(j-1, -1, -1):
-                if board.board[i][y] is None:
-                    moves.append(('safe move left', i, y))
-                elif board.board[i][y] is not None:
-                    # RIGHT KILL MOVE
-                    moves.append(('kill', x, j))
+                if board.board[i][y]:
+                    moves.append(('kill', i, y))
                     break
-        
+                else:
+                    moves.append(('safe move left', i, y))
+  
+        i, j =  self.row, self.col
         # HOLDING POSITIONS AGAIN IN X , Y
         x , y = i , j
         # print(x, y)
+
         # # BISHOP LIKE MOVES 
         # MARCH TOWARDS LEFT TOP CORNER
         while x > 0 and y > 0:
@@ -279,25 +280,24 @@ class Rook(Piece):
                     # DOWN KILL MOVE
                     moves.append(('kill', x, j))
                     break
-        i, j =  self.row, self.col
+        # i, j =  self.row, self.col
         # LONG JUMP RIGHT
         if j < 7:
             for y in range(j+1, 8, 1):
-                if board.board[i][y] is None:
-                    moves.append(('safe move Right', i, y))
-                elif board.board[i][y] is not None:
-                    # RIGHT KILL MOVE
-                    moves.append(('kill', x, j))
+                if board.board[i][y]:
+                    moves.append(('kill', i, y))
                     break
+                else:
+                    moves.append(('safe move Right', i, y))
+
         # LONG JUMP LEFT
         if j > 0:
             for y in range(j-1, -1, -1):
-                if board.board[i][y] is None:
-                    moves.append(('safe move left', i, y))
-                elif board.board[i][y] is not None:
-                    # RIGHT KILL MOVE
-                    moves.append(('kill', x, j))
+                if board.board[i][y]:
+                    moves.append(('kill', i, y))
                     break
+                else:
+                    moves.append(('safe move left', i, y))
         return moves
 
 class Pawn(Piece):
