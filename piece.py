@@ -33,7 +33,8 @@ class Piece:
             myMoves = self.validMoves(board)
             for aMove in myMoves:
                 cx, cy = 40 + aMove[2] * round(self.rect[2]/8), 40 + aMove[1] * round(self.rect[2]/8)
-                pygame.draw.circle(win, (255, 0, 0), (cx, cy), 20)
+                pygame.draw.circle(win, (255, 0, 0), (cx, cy), 10)
+                pygame.draw.rect(win, (0, 0, 0), (cx-40+5, cy-40+5, 65, 65), 2)
 
         win.blit(drawThis, (x, y))
 
@@ -74,17 +75,42 @@ class Bishop(Piece):
 
     def validMoves(self, board):
         i, j =  self.row, self.col
-        print(i, j)
+        x, y = i, j
+        # print(i, j)
         moves =[]
         # MARCH TOWARDS LEFT TOP CORNER
-        # if 8 > j > 0:
-
+        while x > 0 and y > 0:
+            x, y = x - 1, y - 1
+            if board.board[x][y]:
+                moves.append(('kill', x, y))
+                x, y = i, j
+                break
+            moves.append(('safe jump', x, y))
         # MARCH TOWARDS LEFT BOTTOM CORNER
-
+        while x < 7 and y > 0:
+            x, y = x + 1, y - 1
+            if board.board[x][y]:
+                moves.append(('kill', x, y))
+                x, y = i, j
+                break
+            moves.append(('safe jump', x, y))
         # MARCH TOWRDS RIGHT TOP CORNER
-
+        while x > 0 and y < 7:
+            x, y = x - 1, y + 1
+            if board.board[x][y]:
+                moves.append(('kill', x, y))
+                x, y = i, j
+                break
+            moves.append(('safe jump', x, y))   
         # MARCH TOWRDS RIGHT BOTTOM CORNER
-
+        while x < 7 and y < 7:
+            x, y = x + 1, y + 1
+            if board.board[x][y]:
+                moves.append(('kill', x, y))
+                x, y = i, j
+                break
+            moves.append(('safe jump', x, y))
+        
         return moves
 
 class Knight(Piece):

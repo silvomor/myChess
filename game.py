@@ -46,13 +46,15 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 j, i = click(pos)
-
-                try:
-                    board1.selectPiece(i, j)
-                    myMoves = board1.board[i][j].validMoves(board1)
-                    print("Possible Moves: ", myMoves)
-                except Exception as error:
-                    print(error, 'This happened !')
+                board1.selectPiece(i, j)
+                myMoves = board1.board[i][j].validMoves(board1)
+                print("Possible Moves: ", myMoves)
+                # try:
+                #     board1.selectPiece(i, j)
+                #     myMoves = board1.board[i][j].validMoves(board1)
+                #     print("Possible Moves: ", myMoves)
+                # except Exception as error:
+                #     print(error, 'This happened !')
 
                 # prints the selected piece:  print(board1.board[i][j])
     pygame.quit()
