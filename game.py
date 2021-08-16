@@ -27,7 +27,7 @@ def redrawGameWindow():
 def click(pos):
     x, y = pos[0], pos[1]
     X, Y = int(x//(rect[2]/8)), int(y//(rect[2]/8))
-    print("\n\nCurrent Indices: ", Y, X)
+    # print("\n\nCurrent Indices: ", Y, X)
     return (X, Y)
 
 def main():
@@ -36,6 +36,7 @@ def main():
     while run:
         clock.tick(FPS)
         redrawGameWindow()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -43,7 +44,6 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 j, i = click(pos)
-
                 board1.selectPiece(i, j)
                 redrawGameWindow()
                 # try:
@@ -52,6 +52,7 @@ def main():
                 #     print('Error !', error)
 
                 # prints the selected piece:  print(board1.board[i][j])
+    del board1.board
     pygame.quit()
 
 if __name__ == "__main__":

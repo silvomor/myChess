@@ -30,6 +30,9 @@ class Board:
         # self.board[2][2] = Knight(2, 2, 'white')
         # self.board[6][6] = Knight(6, 6, 'black')
 
+    def __del__(self):
+        print('Deleting Board')
+
     def putOnBoard(self, win, board):
         for i in range(self.rows):
             for j in range(self.cols):
@@ -37,9 +40,11 @@ class Board:
                     self.board[i][j].draw(win, board)
 
     def selectPiece(self, x, y):
+        print(f'Select History (stack): {self.selectHistory}')
+        print(f'You Clicked on: {x, y}')
 
         # SELECTING FIRST PIECE
-        if len(self.selectHistory) == 0:
+        if len(self.selectHistory) < 1:
             print("trying to select :", self.board[x][y])
             for i in range(self.rows):
                 for j in range(self.cols):
@@ -51,8 +56,8 @@ class Board:
                 self.selectHistory.append((x, y))
                 print(self.selectHistory)
                 
-            myMoves = self.board[i][j].validMoves(self)
-            print("Possible Moves: ", myMoves, '\n')
+                myMoves = self.board[x][y].validMoves(self)
+                print("Possible Moves: ", myMoves, '\n')
 
             return self.board[x][y]
 
@@ -62,36 +67,55 @@ class Board:
             tx, ty = x, y
 
             print([(px, py), (tx, ty)])
-            for aMove in self.board[px][py].validMoves(self):
-                if (aMove[1], aMove[2]) == (tx, ty):
-                    self.thisIsMyMove((px, py), (tx, ty))
-                    return None
-
+            if self.board[px][py].isSelected():
+                for aMove in self.board[px][py].validMoves(self):
+                    if (aMove[1], aMove[2]) == (tx, ty):
+                        self.thisIsMyMove((px, py), (tx, ty))
             self.deSelectPiece(px, py)
-
-            if (px, py) == (tx, ty):
-                self.deSelectPiece(x, y)
-        
-
+            self.deSelectPiece(tx, ty)
+                        
     def thisIsMyMove(self, curPos, target):
         x1, y1, x2, y2 = curPos[0], curPos[1], target[0], target[1]
 
         fromPiece = self.board[x1][y1]
 
-        if self.board[x2][y2] is None:
+        if self.board[x2][y2]:
+            for aNewPiece in seePieces:
+                if type(fromPiece).__name__ == aNewPiece:
+                    self.board[x2][y2] = seePieces[aNewPiece](x2, y2, fromPiece.color)
+
+            self.board[x1][y1] = None
+        else:
             for aNewPiece in seePieces:
                 if type(fromPiece).__name__ == aNewPiece:
                     self.board[x2][y2] = seePieces[aNewPiece](x2, y2, fromPiece.color)
 
             self.board[x1][y1] = None
 
-        self.deSelectPiece(x2, y2)
-        print(self.board)
-
+        self.showBoard()
+        print(f'Piece from {curPos} was moved to {target}')
 
     def deSelectPiece(self, x, y):
-        self.board[x][y].selected = False
+        if self.board[x][y]:
+            self.board[x][y].selected = False
         self.selectHistory = []
 
-    def putThisPiece(self, win, piece, board):
+    def showBoard(self):
+        currentBoard = []
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.board[i][j]:
+                    currentBoard.append(type(self.board[i][j]).__name__ + '-' + self.board[i][j].color)
+                else:
+                    currentBoard.append(None)
+        print(currentBoard)
+
+    def promotePawn(self, pawnPiece):
+        px, py = pawnPiece.row, pawnPiece.col
+        print(pawnPiece, 'is trying to promote')
+        self.board[px][py] = Queen(px, py, pawnPiece.color)
+        pawnPiece = None
+        pygame.display.update()
+
+    def game(self):
         pass

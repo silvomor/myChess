@@ -3,14 +3,14 @@ import pygame
 
 class Piece:
     img = None
-    global BLACK_PIECE, WHITE_PIECE
+    # global BLACK_PIECE, WHITE_PIECE
     rect = (7, 7, 637, 637)
 
     def __init__(self, row, col, color) -> None:
         self.row = row
         self.col = col
         self.color = color
-        self.selected = False
+        self.selected = None
 
     def validMoves(self):
         pass
@@ -40,6 +40,10 @@ class Piece:
 
 class King(Piece):
     img = 0
+    def __init__(self, row, col, color):
+        super().__init__(row, col, color)
+        self.isUnderCheck = False
+
     def __str__(self) -> str:
         return self.color+ "-" + str(self.__class__.__name__)
 
@@ -337,8 +341,6 @@ class Pawn(Piece):
     img = 5
     def __init__(self, row, col, color):
         super().__init__(row, col, color)
-        self.first = True
-        self.queen = False
 
     def __str__(self) -> str:
         return self.color+ "-" + str(self.__class__.__name__)
@@ -347,11 +349,12 @@ class Pawn(Piece):
         i, j =  self.row, self.col
         # print(i, j)
         moves = []
+        
         # BLACK PAWNS
-        if self.color == 'black':
+        if self.color == 'black' and 0 <= self.row < 7 :
             f1 = board.board[i+1][j]
             # FIRST MOVE WITH TWO OPTIONS
-            if self.first:
+            if self.row == 1:
                 f2 = board.board[i+2][j]
                 if not f1:
                     moves.append(('safe single jump', i+1, j))
@@ -374,12 +377,17 @@ class Pawn(Piece):
                 if ld:
                     if ld.color != self.color:
                        moves.append(("kill left down", i+1, j-1))
+            
+        # PAWN PROMOTION
+        if self.color == 'black' and self.row == 7:
+            board.promotePawn(board.board[i][j])
+    
 
         # WHITE PAWNS
         elif self.color == 'white':
             f1 = board.board[i-1][j]
             # FIRST MOVE WITH TWO OPTIONS
-            if self.first:
+            if self.row == 6:
                 f2 = board.board[i-2][j]
 
                 if not f1:
@@ -405,4 +413,8 @@ class Pawn(Piece):
                     if lu.color != self.color:
                        moves.append(("kill left up", i-1, j-1))
 
+        # PAWN PROMOTION
+        if self.color == 'white' and self.row == 0:
+            board.promotePawn(board.board[i][j])
+    
         return moves

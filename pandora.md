@@ -1,4 +1,8 @@
 
-# [Tutorial: Tech with Tim](https://www.youtube.com/watch?v=HvjsMrR51lg)
+# Project myChess
+---
+## Preview:
 
-## Current Time: 01.18.00
+
+<img src="gifs/myChess_0.gif">
+---
